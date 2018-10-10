@@ -1,6 +1,7 @@
 # This script was made by Colton McAda and Chris Garcia (with maybe some help from the internet).
 
 import os.path
+import re
 
 # This is function pulls the logs from the website and saves into a file if the log file is not currently in the directory.
 def savelogs():
@@ -10,21 +11,10 @@ def savelogs():
 
 savelogs()
 
-# This function will take that log file and delete any lines that are not longer than 38 characters, which should get rid of all the incompletes.
-def clean_logs():
-    if not os.path.exists('./cleanlogs.txt'):
-        with open("cleanlogs.txt", "w") as out:
-            with open("logs.txt") as f:
-                for line in f:
-                    if len(line) > 38:
-                        out.write(line)
-
-clean_logs()
-
 # This function will return the answer to how many requests were made in the log. Note that any corrupt requests were thrown out.
 def total_requests():
     num_lines = 0
-    with open('cleanlogs.txt','r') as f:
+    with open('logs.txt','r') as f:
         for i in f:
             num_lines += 1
     print('This is the total amount of requests in the log file: ',num_lines)
@@ -34,9 +24,8 @@ total_requests()
 # This code will go through the lines of logs, assign the file to a value in a list, then count how many times that value appears over 
 # multiple lines. Afterwards, it will return the least and most appeared file in the logs. 
 def file_count():
-    import re
     file_dict = {}
-    for line in open('cleanlogs.txt'):
+    for line in open('logs.txt'):
         pieces = re.split('.*\[([^:]*):(.*) \-[0-9]{4}\] \"([A-Z]+) (.+?)( HTTP.*\"|\") ([2-5]0[0-9]) .*', line)
         try:
             file = pieces[4]
