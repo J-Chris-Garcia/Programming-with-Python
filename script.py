@@ -10,7 +10,7 @@ def savelogs():
 
 savelogs()
 
-# This function will take that log file and delete any bad lines.
+# This function will take that log file and delete any lines that are not longer than 38 characters, which should get rid of all the incompletes.
 def clean_logs():
     if not os.path.exists('./cleanlogs.txt'):
         with open("cleanlogs.txt", "w") as out:
