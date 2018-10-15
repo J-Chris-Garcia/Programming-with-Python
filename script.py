@@ -31,8 +31,9 @@ total_requests()
 # multiple lines. It also does this for status codes. 
 def file_count():
     file_dict = {}
-    status_dict = {}
     date_dict = {}
+    status_3 = []
+    status_4 = []
     for line in open('logs.txt'):
         pieces = re.split('.*\[([^:]*):(.*) \-[0-9]{4}\] \"([A-Z]+) (.+?)( HTTP.*\"|\") ([2-5]0[0-9]) .*', line)
         try:
@@ -45,33 +46,57 @@ def file_count():
             file_dict[file] += 1
         else:
             file_dict[file] = 1
-        if status in status_dict:
-            status_dict[status] += 1
-        else:
-            status_dict[status] = 1
         if date in date_dict:
             date_dict[date] += 1
         else:
-            date_dict[date] = 1
+            date_dict[date] = 1 
 
-# This code gets the number of times an error code or redirect code appears in the status dictionary.
-    error = 0
-    redirect = 0
-    for k in status_dict.keys():
-        if k.startswith('4'):
-            error += status_dict.get(k)
-        elif k.startswith('3'):
-            redirect += status_dict.get(k)
-        else:
-            continue
+        date = str(pieces[1])
 
-# This code turns that number into a percent against the total amount of status codes we were able to retrieve.
-    perc_error = (error/sum(status_dict.values())) * 100
-    perc_redirect = (redirect/sum(status_dict.values())) * 100
+        month = re.findall(r'[A-Z][a-z][a-z]?\d*',date)
+        year = re.findall(r'[0-9]?\d*',date)
 
-# The code below prints the answers to questions 3-6.
-    print(perc_error,' percent of the requests were not successful.')
-    print (perc_redirect,' percent of the requests were redirected elsewhere.')
+        
+
+
+## OCTOBER 94 ##
+
+        if month == ['Oct'] and year[6] == '1994':
+            with open('october.txt' , 'a') as f:
+                f.write(line)
+                
+
+                ## copy and paste for the rest...  need to count lines to get totals
+
+## Status codes ##
+
+    
+        error = str(pieces[6])
+
+        code = list(re.findall(r'[0-9]',error))
+
+        first = code[0]
+
+      
+        if first == '3':
+            status_3.append(first)
+
+        elif first == '4':
+            status_4.append(first)
+
+  
+    status_300 = len(status_3)
+    status_400 = len(status_4)
+
+   
+    
+    percent300 = (status_300/726736) * 100
+    percent400 = (status_400/726736) * 100
+
+    
+    print("The total percent of requests that were not successful:            "  ,percent400)
+    print("The total percent of requests that were redirected elsewhere:      " ,percent300)
+            
 
     maximum = max(file_dict, key=file_dict.get)
     minimum = min(file_dict, key=file_dict.get)
@@ -124,3 +149,4 @@ def file_count():
 
 
 file_count()
+
