@@ -8,6 +8,7 @@ import re
 
 
 
+
 # This is function pulls the logs from the website and saves into a file if the log file is not currently in the directory.
 
 def savelogs():
@@ -52,6 +53,8 @@ def file_count():
 
     status_3 = []
     status_4 = []
+
+    oct_94 = []
  
     file_dict = {}
 
@@ -80,11 +83,17 @@ def file_count():
         month = re.findall(r'[A-Z][a-z][a-z]?\d*',date)
         year = re.findall(r'[0-9]?\d*',date)
 
+        
+
+
 ## OCTOBER 94 ##
 
         if month == ['Oct'] and year[6] == '1994':
             with open('october.txt' , 'a') as f:
                 f.write(line)
+                oct_94.append(line)
+
+
 
                 ## copy and paste for the rest...  need to count lines to get totals
 
@@ -97,21 +106,25 @@ def file_count():
 
         first = code[0]
 
+      
         if first == '3':
             status_3.append(first)
 
-        if first == '4':
+        elif first == '4':
             status_4.append(first)
 
-       
+  
     status_300 = len(status_3)
     status_400 = len(status_4)
 
-
-    print("The total amount of 4xx status codes is: "  ,status_400)
-    print("The total amount of 3xx status codes is: " ,status_300)
+   
     
-         
+    percent300 = (status_300/726736) * 100
+    percent400 = (status_400/726736) * 100
+
+    
+    print("The total percent of requests that were not successful:            "  ,percent400)
+    print("The total percent of requests that were redirected elsewhere:      " ,percent300)
 
     maximum = max(file_dict, key=file_dict.get)
 
@@ -119,9 +132,9 @@ def file_count():
 
  
 
-    print('The most requested file is ', maximum,' with ', file_dict[maximum],' requests.')
+    print('The most requested file is   ', maximum,' with ', file_dict[maximum], ' requests.')
 
-    print('The least requested file is ', minimum,' with ', file_dict[minimum],' requests.')
+    print('The least requested file is  ', minimum,' with ', file_dict[minimum], ' requests.')
 
 
 
