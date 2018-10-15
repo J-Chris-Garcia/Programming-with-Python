@@ -50,6 +50,9 @@ total_requests()
 
 def file_count():
 
+    status_3 = []
+    status_4 = []
+ 
     file_dict = {}
 
     for line in open('logs.txt'):
@@ -94,14 +97,20 @@ def file_count():
 
         first = code[0]
 
-        # started to work on getting the status code count   this will get
-        # the first number (i.e. the 3 in 300) was goingt to try and count
-        # this.
+        if first == '3':
+            status_3.append(first)
+
+        if first == '4':
+            status_4.append(first)
+
+       
+    status_300 = len(status_3)
+    status_400 = len(status_4)
 
 
-
-            
-        
+    print("The total amount of 4xx status codes is: "  ,status_400)
+    print("The total amount of 3xx status codes is: " ,status_300)
+    
          
 
     maximum = max(file_dict, key=file_dict.get)
