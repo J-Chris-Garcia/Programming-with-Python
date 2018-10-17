@@ -2,6 +2,8 @@
 
 ### PROJECT #3: Programming with Python
 
+Please make sure you are running Python 3.7 before running the script.
+
 This project is an answer to the following project description.
 
 The goal of this project is to familiarize yourself with Python syntax, and some basic tasks that are common in systems programming and administration. The program will be invoked from the command line on a fresh Linux machine, so if you introduce any library dependencies beyond the Python Standard Library (not recommended), you must provide very clear instructions to recreate your environment. You should consider using vagrant or a GCP VM to develop in Linux if you are on a Windows machine. It is your responsibility to ensure the program runs as expected in the operational environment described. 
@@ -21,4 +23,5 @@ What was the least-requested file?
 You will need to output this data to the screen. The format you choose for this is up to you (human readable, machine readable, plain text, JSON, etc), but your decisions and the implementation should be logical and consistent. 
 
 Finally, it was decided that the logs should be broken into separate files by month. Your program should split the log file into 12 smaller files, where the data stored in each file are the log events for a single month. These should be written to disk in the same directory as your program file, in a logical and consistent manner. 
+
 Your program should be created and developed using GitHub (I will be examining the commit logs to see your work). When the project is due, you will Slack me your repository URL so I can clone the repo and test your program. The project is due by 5pm on Wednesday, Oct 17th. 
