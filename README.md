@@ -1,8 +1,8 @@
 # Programming-with-Python
 
-### PROJECT #3: Programming with Python
+## PROJECT #3 with Chris Garcia & Colton McAda
 
-##### Please make sure you are running Python 3.7 before running the script.
+#### Please make sure you are running Python 3.7 before running the script.
 
 This project is an answer to the following project description.
 
