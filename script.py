@@ -1,9 +1,10 @@
 # This script was made by Colton McAda and Chris Garcia (with maybe some help from the internet).
-
 import os.path
 import re
 from datetime import date, datetime
 import calendar
+
+print("Please wait while we download the logs.")
 
 # This is function pulls the logs from the website and saves into a file if the log file is not currently in the directory.
 def savelogs():
@@ -13,35 +14,43 @@ def savelogs():
 
 savelogs()
 
-# This function will return the answer to how many requests were made in the log. Note that any corrupt requests were thrown out.
-def total_requests():
-    num_lines = 0
-    with open('logs.txt','r') as f:
-        for i in f:
-            num_lines += 1
-
-    avg_week = num_lines/50.4286
-    avg_mon = num_lines/11.5921
-    print('This is the total amount of requests in the log file: ',num_lines)
-    print('This is the average amount of requests for a week: ', avg_week)
-    print('This is the average amount of requests for a month: ', avg_mon)
-total_requests()
-
 # This code will go through the lines of logs, assign the file to a value in a list, then count how many times that value appears over 
 # multiple lines. It also does this for status codes. 
-def file_count():
+
+def file_count():    
+    print('Parsing log, and writing files by month. This will take a while.')
+    
+    num_lines = 0
     file_dict = {}
     date_dict = {}
     status_3 = []
     status_4 = []
+
+    o94 = open('october_94.txt' , 'a')
+    n94 = open('november_94.txt' , 'a')
+    d94 = open('december_94.txt' , 'a')
+    j95 = open('january_95.txt' , 'a')
+    f95 = open('febuary_95.txt' , 'a')
+    m95 = open('march_95.txt' , 'a')
+    a95 = open('april_95.txt' , 'a')
+    ma95 = open('may_95.txt' , 'a')
+    ju95 = open('june_95.txt' , 'a')
+    jul95 = open('july_95.txt' , 'a')
+    au95 = open('august_95.txt' , 'a')
+    s95 = open('september_95.txt' , 'a')
+    o95 = open('october_95.txt' , 'a')
+
     for line in open('logs.txt'):
+        num_lines += 1
         pieces = re.split('.*\[([^:]*):(.*) \-[0-9]{4}\] \"([A-Z]+) (.+?)( HTTP.*\"|\") ([2-5]0[0-9]) .*', line)
+
         try:
             file = pieces[4]
             status = pieces[6]
             date = pieces[1]
         except IndexError:
             continue
+
         if file in file_dict:
             file_dict[file] += 1
         else:
@@ -52,56 +61,115 @@ def file_count():
             date_dict[date] = 1 
 
         date = str(pieces[1])
-
         month = re.findall(r'[A-Z][a-z][a-z]?\d*',date)
         year = re.findall(r'[0-9]?\d*',date)
 
-        
-
-
-## OCTOBER 94 ##
-
+## October 94 ##
+   
         if month == ['Oct'] and year[6] == '1994':
-            with open('october.txt' , 'a') as f:
-                f.write(line)
-                
+            o94.write(line)
+## November 94
 
-                ## copy and paste for the rest...  need to count lines to get totals
+        if month == ['Nov'] and year[6] == '1994':
+            n94.write(line)
+
+## December 94 ##
+                
+        if month == ['Dec'] and year[6] == '1994':
+            d94.write(line)
+
+## January 95 ##
+
+        if month == ['Jan'] and year[6] == '1995': 
+            j95.write(line)
+
+## February 95 ##
+
+        if month == ['Feb'] and year[6] == '1995':
+            f95.write(line)
+
+## March 95 ##
+
+        if month == ['Mar'] and year[6] == '1995':
+            m95.write(line)
+
+## April 95 ##
+
+        if month == ['Apr'] and year[6] == '1995':
+            a95.write(line)
+
+## May 95 ##
+
+        if month == ['May'] and year[6] == '1995':
+            ma95.write(line)
+
+## June 95 ##
+
+        if month == ['Jun'] and year[6] == '1995':
+            ju95.write(line)
+
+## July 95 ##
+
+        if month == ['Jul'] and year[6] == '1995':
+            jul95.write(line)
+
+## August 95 ##
+
+        if month == ['Aug'] and year[6] == '1995':
+            au95.write(line)
+
+## September 95 ##
+
+        if month == ['Sep'] and year[6] == '1995':
+            s95.write(line)
+
+## October 95 ##
+
+        if month == ['Oct'] and year[6] == '1995':
+            o95.write(line)
 
 ## Status codes ##
-
     
         error = str(pieces[6])
-
         code = list(re.findall(r'[0-9]',error))
-
         first = code[0]
-
       
         if first == '3':
             status_3.append(first)
-
         elif first == '4':
             status_4.append(first)
 
   
     status_300 = len(status_3)
-    status_400 = len(status_4)
+    status_400 = len(status_4)     
 
-   
-    
     percent300 = (status_300/726736) * 100
     percent400 = (status_400/726736) * 100
 
-    
     print("The total percent of requests that were not successful:            "  ,percent400)
     print("The total percent of requests that were redirected elsewhere:      " ,percent300)
-            
+
+          
+    avg_week = num_lines/50.4286
+    avg_mon = num_lines/11.5921
+
+    print('This is the total amount of requests in the log file: ',num_lines)
+    print('This is the average amount of requests for a week: ', avg_week)
+    print('This is the average amount of requests for a month: ', avg_mon)
 
     maximum = max(file_dict, key=file_dict.get)
     minimum = min(file_dict, key=file_dict.get)
+
     print('The most requested file is ', maximum,' with ', file_dict[maximum],' requests.')
-    print('The least requested file is ', minimum,' with ', file_dict[minimum],' requests.')
+
+    min_file = []
+    for k in file_dict.keys():
+        if file_dict.get(k) == 1:
+            min_file.append(k)
+        else:
+            continue
+
+    print('There are multiple least requested files. Here is a list', min_file)
 
     mon_req=[]
     tues_req=[]
@@ -128,8 +196,8 @@ def file_count():
         elif day=='Saturday':
             sat_req.append(date_dict.get(d))
         else:
-            sun_req.append(date_dict.get(d))
-        
+            sun_req.append(date_dict.get(d))    
+
     avg_mon= sum(mon_req)/len(mon_req)
     avg_tues= sum(tues_req)/len(tues_req)
     avg_wed= sum(wed_req)/len(wed_req)
@@ -138,15 +206,12 @@ def file_count():
     avg_sat= sum(sat_req)/len(sat_req)
     avg_sun= sum(sun_req)/len(sun_req)
 
-    print('The average monday gets', avg_mon, ' requests')
-    print('The average tuesday gets', avg_tues, ' requests')
-    print('The average wednesday gets', avg_wed, ' requests')
-    print('The average thursday gets', avg_thur, ' requests')
-    print('The average friday gets', avg_fri, ' requests')
-    print('The average saturday gets', avg_sat, ' requests')
-    print('The average sunday gets', avg_sun, ' requests')
-
-
+    print('The average monday gets    ', avg_mon,  ' requests')
+    print('The average tuesday gets   ', avg_tues, ' requests')
+    print('The average wednesday gets ', avg_wed,  ' requests')
+    print('The average thursday gets  ', avg_thur, ' requests')
+    print('The average friday gets    ', avg_fri,  ' requests')
+    print('The average saturday gets  ', avg_sat,  ' requests')
+    print('The average sunday gets    ', avg_sun,  ' requests')
 
 file_count()
-
